@@ -1,0 +1,24 @@
+sudo: required
+
+services:
+  - docker
+
+install:
+  - cd $TRAVIS_BUILD_DIR/jpetstore
+  - docker build -t ibmcloudlabs/jpetstoreweb:latest .
+  - cd $TRAVIS_BUILD_DIR/jpetstore/db
+  - docker build -t ibmcloudlabs/jpetstoredb:latest .
+  - cd $TRAVIS_BUILD_DIR/mmssearch
+  - docker build -t ibmcloudlabs/mmssearch:latest .
+
+script:
+  - echo "Build complete!"
+
+after_success:
+  - echo "Current branch is ${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}"
+  - if [ "${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}" == "master" ]; then
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push ibmcloudlabs/jpetstoreweb:latest;
+    docker push ibmcloudlabs/jpetstoredb:latest;
+    docker push ibmcloudlabs/mmssearch:latest;
+    fi

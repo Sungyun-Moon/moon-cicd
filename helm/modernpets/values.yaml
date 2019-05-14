@@ -5,11 +5,5 @@
 replicaCount: 2
 
 image:
-  repository: <REGISTRY>/<NAMESPACE> # Ex: us.icr.io/mynamespace
+  repository: ibmcloudlabs # Ex: us.icr.io/mynamespace
   pullPolicy: Always
-  pullSecret: ""
-
-ingress:
-  enabled: true
-  hosts:
-    - jpetstore.<Ingress Subdomain> # Ex: jpetstore.myclustername.us-south.containers.mybluemix.net
